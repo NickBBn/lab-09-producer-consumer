@@ -26,8 +26,14 @@ string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra")
 string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
 string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
+hunter_add_package(Beast)
+find_package(Beast CONFIG REQUIRED)
+hunter_add_package(Boost COMPONENTS thread filesystem program_options)
+find_package(Boost CONFIG REQUIRED thread filesystem program_options)
 hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
+hunter_add_package(gumbo)
+find_package(gumbo CONFIG REQUIRED)
 
 add_library(${PROJECT_NAME} STATIC
   # enum your files and delete this comment
@@ -43,7 +49,14 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   "$<INSTALL_INTERFACE:include>"
 )
 
-target_link_libraries(demo ${PROJECT_NAME})
+target_link_libraries(demo
+        ${PROJECT_NAME}
+        Beast::Beast
+        Boost::filesystem
+        Boost::thread
+        Boost::program_options
+        gumbo::gumbo
+        )
 
 if(BUILD_TESTS)
   add_executable(tests
