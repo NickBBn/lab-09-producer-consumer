@@ -28,6 +28,8 @@ string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
 hunter_add_package(Beast)
 find_package(Beast CONFIG REQUIRED)
+hunter_add_package(OpenSSL)
+find_package(OpenSSL REQUIRED)
 hunter_add_package(Boost COMPONENTS thread filesystem program_options)
 find_package(Boost CONFIG REQUIRED thread filesystem program_options)
 hunter_add_package(GTest)
@@ -56,6 +58,7 @@ target_link_libraries(demo
         Boost::thread
         Boost::program_options
         gumbo::gumbo
+        OpenSSL::SSL
         )
 
 if(BUILD_TESTS)
