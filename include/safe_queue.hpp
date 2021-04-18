@@ -10,6 +10,7 @@
 
 template <typename T>
 class safe_queue {
+ public:
   T front();
   void pop();
   void push(const T& obj);
@@ -42,7 +43,7 @@ void safe_queue<T>::push(const T& obj) {
 template <typename T>
 void safe_queue<T>::push(T&& obj) {
   std::lock_guard<std::mutex> lock(_mutex);
-  return _queue.push(std::forward<>(obj));
+  return _queue.push(std::forward<T>(obj));
 }
 
 template <typename T>

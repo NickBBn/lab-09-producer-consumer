@@ -12,17 +12,18 @@ int main(int argc, char** argv) {
     std::cout << "Usage: find_links <html filename>.\n";
     exit(EXIT_FAILURE);
   }
-  std::string_view url = argv[1];
-  downloader d;
-  std::string res = d.download_page(url);
-
-  GumboOutput* output = gumbo_parse(res.c_str());
-  parser p;
-  p.search_for_links(output->root);
-  gumbo_destroy_output(&kGumboDefaultOptions, output);
+  url cur_url(argv[1], 1);
+  downloader::links.push(std::move(cur_url));
 
   ThreadPool pool_download(4);
   ThreadPool pool_parse(4);
-
-
+  while (parser::current_works() != 0 ||
+         downloader::current_works() != 0 ||
+         (!parser::queue_pages.is_empty()) ||
+         (!downloader::links.is_empty())
+         ){
+      pool_download.enqueue(downloader::download_page);
+      pool_parse.enqueue(parser::parse);
+  }
+  return 0;
 }

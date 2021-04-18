@@ -17,25 +17,22 @@
 #include <iostream>
 
 #include "safe_queue.hpp"
-
-struct url {
-
-};
+#include "parser.hpp"
+#include "url.hpp"
+#include "page.hpp"
 
 class downloader {
  public:
-  std::string download_page(std::string_view url);
-  void parseUri(std::string_view url,
-                std::string& protocol, std::string& host, std::string& target);
-
- private:
-  std::string download_https_page(std::string&& host,
-                                std::string&& target);
-  std::string download_http_page(std::string&& host,
-                                std::string&& target);
-
- private:
+  downloader() = delete;
+  static void download_page();
+  static void parse_uri(page &cur_page, url &cur_url);
   static safe_queue<url> links;
+  static std::uint16_t current_works();
+
+ private:
+  static void download_https_page(page &cur_page);
+  static void download_http_page(page &cur_page);
+  static std::atomic_uint16_t _current_works;
 };
 
 #endif  // TEMPLATE_DOWNLOADER_HPP

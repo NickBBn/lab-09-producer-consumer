@@ -40,7 +40,7 @@ find_package(gumbo CONFIG REQUIRED)
 add_library(${PROJECT_NAME} STATIC
   # enum your files and delete this comment
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/downloader.cpp
-        include/downloader.hpp sources/parser.cpp include/parser.hpp include/threadpool.hpp include/safe_queue.hpp)
+        include/downloader.hpp sources/parser.cpp include/parser.hpp include/threadpool.hpp include/safe_queue.hpp sources/url.cpp include/url.hpp sources/page.cpp include/page.hpp)
 
 add_executable(demo
   ${CMAKE_CURRENT_SOURCE_DIR}/demo/main.cpp
