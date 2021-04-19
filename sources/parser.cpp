@@ -6,7 +6,6 @@
 
 safe_queue<page> parser::queue_pages;
 safe_queue<std::string> parser::queue_writer;
-std::atomic_uint16_t parser::_current_works(0);
 
 bool isImage(const std::string& url) {
   size_t lastDotPos = url.find_last_of('.');
@@ -21,7 +20,7 @@ bool isImage(const std::string& url) {
                      [&](const std::string& s) { return ext == s; });
 }
 
-static void search_for_links(GumboNode* node, page p) {
+static void search_for_links(GumboNode* node, const page& p) {
   if (node->type != GUMBO_NODE_ELEMENT) {
     return;
   }
@@ -41,7 +40,7 @@ static void search_for_links(GumboNode* node, page p) {
     if (!regex_match(tmp.begin(), tmp.end(), rx)) return;
 
     if (href->value[0] == '/') {
-      tmp = p.protocol + p.host + href->value;
+      tmp = p.protocol + "://" + p.host + href->value;
     } else {
       tmp = href->value;
     }
@@ -64,17 +63,13 @@ static void search_for_links(GumboNode* node, page p) {
 void parser::parse() {
   try {
     if (!parser::queue_pages.is_empty()) {
-      ++_current_works;
       page _tmp = parser::queue_pages.front();
-      std::cout << "parse" << std::endl;
-      GumboOutput* output = gumbo_parse(_tmp.page.c_str());  // const char*
+      GumboOutput* output = gumbo_parse(_tmp.page.c_str());
       search_for_links(output->root, _tmp);
       gumbo_destroy_output(&kGumboDefaultOptions, output);
       parser::queue_pages.pop();
-      --_current_works;
     }
   } catch (...) {
   }
 }
 
-std::uint16_t parser::current_works() { return _current_works; }

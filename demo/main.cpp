@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <fstream>
 
 #include "gumbo.h"
 #include "downloader.hpp"
@@ -17,13 +18,18 @@ int main(int argc, char** argv) {
 
   ThreadPool pool_download(4);
   ThreadPool pool_parse(4);
-  while (parser::current_works() != 0 ||
-         downloader::current_works() != 0 ||
-         (!parser::queue_pages.is_empty()) ||
-         (!downloader::links.is_empty())
-         ){
+  while ((!parser::queue_pages.is_empty()) ||
+         (!downloader::links.is_empty())){
       pool_download.enqueue(downloader::download_page);
       pool_parse.enqueue(parser::parse);
   }
+
+  std::ofstream ofs("output.txt");
+  while (!parser::queue_writer.is_empty()) {
+    std::string _tmp = parser::queue_writer.front();
+    parser::queue_writer.pop();
+    ofs << _tmp << std::endl;
+  }
+  ofs.close();
   return 0;
 }

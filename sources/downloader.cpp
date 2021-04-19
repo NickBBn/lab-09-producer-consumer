@@ -5,14 +5,11 @@
 #include "downloader.hpp"
 
 safe_queue<url> downloader::links;
-std::atomic_uint16_t downloader::_current_works(0);
 
 void downloader::download_page() {
   if (!downloader::links.is_empty())
   {
-    ++_current_works;
     url cur_url = downloader::links.front();
-    std::cout << "download" << std::endl;
     page cur_page;
     cur_page.depth = cur_url.depth;
     parse_uri(cur_page, cur_url);
@@ -22,7 +19,6 @@ void downloader::download_page() {
       download_https_page(cur_page);
     parser::queue_pages.push(std::move(cur_page));
     downloader::links.pop();
-    --_current_works;
   }
 }
 
@@ -110,4 +106,3 @@ void downloader::parse_uri(page &cur_page, url &cur_url) {
   }
 }
 
-std::uint16_t downloader::current_works() { return _current_works; }
