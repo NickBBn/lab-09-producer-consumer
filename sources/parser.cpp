@@ -1,7 +1,4 @@
-//
-// Created by niickson on 4/16/21.
-//
-
+//Copyright [2021] <nickgeo.winner@gmail.com>
 #include "parser.hpp"
 
 safe_queue<page> parser::queue_pages;

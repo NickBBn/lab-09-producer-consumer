@@ -1,11 +1,8 @@
-//
-// Created by niickson on 4/16/21.
-//
+//Copyright [2021] <nickgeo.winner@gmail.com>
 
-#ifndef TEMPLATE_DOWNLOADER_HPP
-#define TEMPLATE_DOWNLOADER_HPP
+#ifndef INCLUDE_DOWNLOADER_HPP_
+#define INCLUDE_DOWNLOADER_HPP_
 #include <openssl/ssl.h>
-
 #include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/ssl.hpp>
@@ -34,4 +31,4 @@ class downloader {
   static void download_http_page(page &cur_page);
 };
 
-#endif  // TEMPLATE_DOWNLOADER_HPP
+#endif  // INCLUDE_DOWNLOADER_HPP_

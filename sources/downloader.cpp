@@ -1,6 +1,4 @@
-//
-// Created by niickson on 4/16/21.
-//
+//Copyright [2021] <nickgeo.winner@gmail.com>
 
 #include "downloader.hpp"
 
@@ -34,7 +32,7 @@ void downloader::download_https_page(page &cur_page) {
   boost::asio::ip::tcp::resolver resolver(ioc);
   boost::beast::ssl_stream<boost::beast::tcp_stream> stream(ioc, ctx);
 
-  if (!SSL_set_tlsext_host_name(stream.native_handle(), cur_page.host.data())) {
+  if (!SSL_set_tlsext_host_name(stream.native_handle(),cur_page.host.data())) {
     boost::beast::error_code ec{static_cast<int>(::ERR_get_error()),
                                 boost::asio::error::get_ssl_category()};
     throw boost::beast::system_error{ec};
@@ -98,11 +96,13 @@ void downloader::parse_uri(page &cur_page, url &cur_url) {
   cur_page.protocol = cur_url.link.substr(0, dd_pos);
   size_t path_start = cur_url.link.find('/', dd_pos + 3);
   if (path_start == std::string::npos) {
-    cur_page.host = cur_url.link.substr(dd_pos + 3, cur_url.link.size() - dd_pos - 2);
+    cur_page.host =
+        cur_url.link.substr(dd_pos + 3, cur_url.link.size() - dd_pos - 2);
     cur_page.target = "/";
   } else {
     cur_page.host = cur_url.link.substr(dd_pos + 3, path_start - dd_pos - 3);
-    cur_page.target = cur_url.link.substr(path_start, cur_url.link.size() - path_start + 1);
+    cur_page.target =
+        cur_url.link.substr(path_start, cur_url.link.size() - path_start + 1);
   }
 }
 

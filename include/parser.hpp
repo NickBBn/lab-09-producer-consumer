@@ -1,12 +1,12 @@
-//
-// Created by niickson on 4/16/21.
-//
+//Copyright [2021] <nickgeo.winner@gmail.com>
 
-#ifndef TEMPLATE_PARSER_HPP
-#define TEMPLATE_PARSER_HPP
+#ifndef INCLUDE_PARSER_HPP_
+#define INCLUDE_PARSER_HPP_
 #include <gumbo.h>
 #include <iostream>
 #include <regex>
+#include <string>
+
 #include "downloader.hpp"
 #include "safe_queue.hpp"
 #include "url.hpp"
@@ -19,4 +19,4 @@ class parser {
   static safe_queue<page> queue_pages;
   static safe_queue<std::string> queue_writer;
 };
-#endif  // TEMPLATE_PARSER_HPP
+#endif  // INCLUDE_PARSER_HPP_

@@ -1,12 +1,11 @@
-//
-// Created by niickson on 4/16/21.
-//
+//Copyright [2021] <nickgeo.winner@gmail.com>
 
-#ifndef QUEUE_HPP
-#define QUEUE_HPP
+#ifndef INCLUDE_SAFE_QUEUE_HPP_
+#define INCLUDE_SAFE_QUEUE_HPP_
 #include <iostream>
 #include <queue>
 #include <mutex>
+#include <utility>
 
 template <typename T>
 class safe_queue {
@@ -51,4 +50,4 @@ bool safe_queue<T>::is_empty() {
   return _queue.empty();
 }
 
-#endif  // QUEUE_HPP
+#endif  // INCLUDE_SAFE_QUEUE_HPP_

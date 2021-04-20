@@ -1,10 +1,9 @@
-//
-// Created by niickson on 4/18/21.
-//
+//Copyright [2021] <nickgeo.winner@gmail.com>
 
-#ifndef TEMPLATE_PAGE_HPP
-#define TEMPLATE_PAGE_HPP
+#ifndef INCLUDE_PAGE_HPP_
+#define INCLUDE_PAGE_HPP_
 #include <iostream>
+#include <string>
 
 struct page {
   std::string page;
@@ -14,4 +13,4 @@ struct page {
   size_t depth;
 };
 
-#endif  // TEMPLATE_PAGE_HPP
+#endif  // INCLUDE_PAGE_HPP_
