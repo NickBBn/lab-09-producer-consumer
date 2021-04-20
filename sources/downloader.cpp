@@ -32,7 +32,8 @@ void downloader::download_https_page(page &cur_page) {
   boost::asio::ip::tcp::resolver resolver(ioc);
   boost::beast::ssl_stream<boost::beast::tcp_stream> stream(ioc, ctx);
 
-  if (!SSL_set_tlsext_host_name(stream.native_handle(),cur_page.host.data())) {
+  if (!SSL_set_tlsext_host_name(stream.native_handle(),
+                                cur_page.host.data())) {
     boost::beast::error_code ec{static_cast<int>(::ERR_get_error()),
                                 boost::asio::error::get_ssl_category()};
     throw boost::beast::system_error{ec};
