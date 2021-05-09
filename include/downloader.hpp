@@ -25,6 +25,7 @@ class downloader {
   static void download_page();
   static void parse_uri(page &cur_page, url &cur_url);
   static safe_queue<url> links;
+  static std::atomic_int current_works;
 
  private:
   static void download_https_page(page &cur_page);

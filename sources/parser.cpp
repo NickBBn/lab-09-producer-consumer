@@ -3,6 +3,7 @@
 
 safe_queue<page> parser::queue_pages;
 safe_queue<std::string> parser::queue_writer;
+std::atomic_int parser::current_works = 0;
 
 bool isImage(const std::string& url) {
   size_t lastDotPos = url.find_last_of('.');
@@ -60,11 +61,13 @@ static void search_for_links(GumboNode* node, const page& p) {
 void parser::parse() {
   try {
     if (!parser::queue_pages.is_empty()) {
+      ++current_works;
       page _tmp = parser::queue_pages.front();
+      parser::queue_pages.pop();
       GumboOutput* output = gumbo_parse(_tmp.page.c_str());
       search_for_links(output->root, _tmp);
       gumbo_destroy_output(&kGumboDefaultOptions, output);
-      parser::queue_pages.pop();
+      --current_works;
     }
   } catch (...) {
   }

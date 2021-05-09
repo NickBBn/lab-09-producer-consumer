@@ -18,5 +18,6 @@ class parser {
   static void parse();
   static safe_queue<page> queue_pages;
   static safe_queue<std::string> queue_writer;
+  static std::atomic_int current_works;
 };
 #endif  // INCLUDE_PARSER_HPP_

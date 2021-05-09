@@ -3,11 +3,14 @@
 #include "downloader.hpp"
 
 safe_queue<url> downloader::links;
+std::atomic_int downloader::current_works = 0;
 
 void downloader::download_page() {
   if (!downloader::links.is_empty())
   {
+    ++current_works;
     url cur_url = downloader::links.front();
+    downloader::links.pop();
     page cur_page;
     cur_page.depth = cur_url.depth;
     parse_uri(cur_page, cur_url);
@@ -16,7 +19,7 @@ void downloader::download_page() {
     else if (cur_page.protocol == "https")
       download_https_page(cur_page);
     parser::queue_pages.push(std::move(cur_page));
-    downloader::links.pop();
+    --current_works;
   }
 }
 

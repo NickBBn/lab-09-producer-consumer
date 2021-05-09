@@ -1,4 +1,3 @@
-#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -8,6 +7,7 @@
 #include "downloader.hpp"
 #include "parser.hpp"
 #include "threadpool.hpp"
+#include "application.hpp"
 
 namespace po = boost::program_options;
 
@@ -50,23 +50,8 @@ int main(int argc, char** argv) {
   output = (vm.count("output")) ?
            vm["output"].as<std::string>() : "output.txt";
 
-  struct url cur_url(link, depth);
-  downloader::links.push(std::move(cur_url));
+  application app(link, depth, network_threads, parser_threads, output);
+  app.work();
 
-  ThreadPool pool_download(network_threads);
-  ThreadPool pool_parse(parser_threads);
-  while ((!parser::queue_pages.is_empty()) ||
-         (!downloader::links.is_empty())){
-      pool_download.enqueue(downloader::download_page);
-      pool_parse.enqueue(parser::parse);
-  }
-
-  std::ofstream ofs(output);
-  while (!parser::queue_writer.is_empty()) {
-    std::string _tmp = parser::queue_writer.front();
-    parser::queue_writer.pop();
-    ofs << _tmp << std::endl;
-  }
-  ofs.close();
   return 0;
 }
