@@ -5,7 +5,7 @@ safe_queue<page> parser::queue_pages;
 safe_queue<std::string> parser::queue_writer;
 std::atomic_int parser::current_works = 0;
 
-bool isImage(const std::string& url) {
+bool parser::isImage(const std::string& url) {
   size_t lastDotPos = url.find_last_of('.');
   if (lastDotPos == std::string::npos) return false;
   std::string ext = url.substr(lastDotPos + 1, url.size() - 1);
@@ -18,7 +18,7 @@ bool isImage(const std::string& url) {
                      [&](const std::string& s) { return ext == s; });
 }
 
-static void search_for_links(GumboNode* node, const page& p) {
+void parser::search_for_links(GumboNode* node, const page& p) {
   if (node->type != GUMBO_NODE_ELEMENT) {
     return;
   }
@@ -51,7 +51,6 @@ static void search_for_links(GumboNode* node, const page& p) {
       downloader::links.push(std::move(_url));
     }
   }
-
   GumboVector* children = &node->v.element.children;
   for (unsigned int i = 0; i < children->length; ++i) {
     search_for_links(static_cast<GumboNode*>(children->data[i]), p);

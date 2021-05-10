@@ -24,7 +24,7 @@ class downloader {
   downloader() = delete;
   static void download_page();
   static void parse_uri(page &cur_page, url &cur_url);
-  static safe_queue<url> links;
+  static safe_queue<url> links; //очередь для скачивания
   static std::atomic_int current_works;
 
  private:

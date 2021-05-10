@@ -8,6 +8,7 @@
 struct url {
   std::string link;
   size_t depth;
+
   url(const std::string& p_link, const size_t& p_depth)
       :
         link(p_link)

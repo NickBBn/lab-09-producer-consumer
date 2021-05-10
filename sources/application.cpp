@@ -12,6 +12,7 @@ application::application(std::string _link, size_t _depth, size_t _network_threa
       , parser_threads(_parser_threads)
       , output(std::move(_output))
 {}
+
 void application::work(){
   struct url cur_url(link, depth);
   downloader::links.push(std::move(cur_url));
@@ -23,9 +24,8 @@ void application::work(){
          (downloader::current_works > 0) ||
          (parser::current_works > 0)
       ){
-    pool_download.enqueue(downloader::download_page);
+    pool_download.enqueue(downloader::download_page); //добавить задачу
     pool_parse.enqueue(parser::parse);
-
   }
 
   std::ofstream ofs(output);

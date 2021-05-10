@@ -16,8 +16,10 @@ class parser {
  public:
   parser() = delete;
   static void parse();
-  static safe_queue<page> queue_pages;
-  static safe_queue<std::string> queue_writer;
+  static bool isImage(const std::string& url);
+  static void search_for_links(GumboNode* node, const page& p);
+  static safe_queue<page> queue_pages; //очередь для парсинга
+  static safe_queue<std::string> queue_writer; //очередь для записи в файл
   static std::atomic_int current_works;
 };
 #endif  // INCLUDE_PARSER_HPP_

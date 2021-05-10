@@ -1,12 +1,8 @@
 #include <iostream>
 #include <string>
-#include <fstream>
 
 #include "boost/program_options.hpp"
 #include "gumbo.h"
-#include "downloader.hpp"
-#include "parser.hpp"
-#include "threadpool.hpp"
 #include "application.hpp"
 
 namespace po = boost::program_options;
