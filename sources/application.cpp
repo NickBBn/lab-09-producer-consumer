@@ -19,6 +19,7 @@ void application::work(){
 
   ThreadPool pool_download(network_threads);
   ThreadPool pool_parse(parser_threads);
+
   while ((!parser::queue_pages.is_empty()) ||
          (!downloader::links.is_empty()) ||
          (downloader::current_works > 0) ||

@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
                    vm["parser_threads"].as<size_t>() : 1;
 
   output = (vm.count("output")) ?
-           vm["output"].as<std::string>() : "output.txt";
+           vm["output"].as<std::string>() : "output.txt";//https://www.youtube.com/
 
   application app(link, depth, network_threads, parser_threads, output);
   app.work();
